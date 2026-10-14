@@ -5,13 +5,76 @@
 실습은 안전한 개인 브랜치에서 수행합니다. 이미 공유된 커밋에 대한 amend/reset 및 무단 강제 Push를 금지합니다.
 
 ## 1. git commit --amend (최근 커밋 메시지 수정)
-- 참여자 / 역할:
-- 발생시킨 상황 / 기대한 복구:
-- 재현 절차 및 실제 실행 명령:
-- 실행 전 `git log` / `git status`:
-- 실행 후 `git log` / `git status`:
-- 결과 / 검증:
-- 주의점:
+
+### 참여자 / 역할
+- Patrick-sangwook
+- 역할: `git commit --amend` 명령어를 이용한 최근 커밋 메시지 수정 실습 및 결과 기록
+
+### 발생시킨 상황 / 기대한 복구
+- 개인 학습자료를 작성한 후 커밋 메시지를 `어맨드 학습정리`로 등록함.
+- 팀의 커밋 메시지 작성 규칙에 맞춰 `docs:` 접두어를 추가하고자 함.
+- 기존 커밋의 파일 내용을 유지하면서 최근 커밋 메시지만 `docs: 어맨드 학습정리`로 수정하는 것을 목표로 함.
+
+### 재현 절차 및 실제 실행 명령
+1. `feature/12-amend-practice` 브랜치에서 최근 커밋을 확인함.
+2. `git commit --amend`를 이용하여 커밋 메시지를 수정함.
+3. 수정 후 `git log`로 커밋 메시지 및 커밋 ID 변경 여부를 확인함.
+
+실습 명령어:
+
+```bash
+git log
+git commit --amend -m "docs: 어맨드 학습정리"
+git log
+```
+
+※ 가운데 `git commit --amend` 명령어는 제공된 실행 전후 로그를 바탕으로 정리한 재현용 명령어임.
+
+### 실행 전 `git log`
+
+**git log**
+
+```text
+commit ac8e2009dfa5aaa29b81d8c6d62abf0a80c27936 (HEAD -> feature/12-amend-practice)
+Author: Patrick-sangwook <netlee12@naver.com>
+Date:   Wed Oct 14 22:03:48 2026 +0900
+
+    어맨드 학습정리
+```
+
+### 실행 후 `git log`
+
+**git log**
+
+```text
+commit e41fc0a28abc98759a165a7b98ad902aba387113 (HEAD -> feature/12-amend-practice)
+Author: Patrick-sangwook <netlee12@naver.com>
+Date:   Wed Oct 14 22:03:48 2026 +0900
+
+    docs: 어맨드 학습정리
+```
+
+### 결과 / 검증
+
+| 구분 | 수정 전 | 수정 후 |
+|---|---|---|
+| 커밋 ID | `ac8e2009` | `e41fc0a2` |
+| 커밋 메시지 | 어맨드 학습정리 | docs: 어맨드 학습정리 |
+| 브랜치 | feature/12-amend-practice | feature/12-amend-practice |
+
+**검증 결과**
+
+- 최근 커밋 메시지가 정상적으로 변경됨.
+- 커밋 ID가 `ac8e2009`에서 `e41fc0a2`로 변경됨.
+- 작업 브랜치는 동일하게 유지됨.
+- `git commit --amend`가 기존 커밋을 새로운 커밋으로 교체한다는 것을 확인함.
+
+### 주의점
+- `git commit --amend`는 최근 커밋을 새로운 커밋으로 교체하므로 커밋 ID가 변경됨.
+- 이미 원격 저장소에 push한 커밋을 수정하면 다른 팀원의 Git 작업에 영향을 줄 수 있음.
+- 가급적 원격 저장소에 push하기 전 개인 브랜치에서 사용해야 함.
+- 공유 브랜치인 `main`에서는 팀원과 협의 없이 커밋 기록을 변경하거나 강제 push하지 않아야 함.
+- 이번 실습을 통해 커밋 메시지 작성 규칙을 지키는 것의 중요성을 이해함.
 
 ## 2. git reset --soft HEAD~1 (로컬 커밋 취소, 변경 유지)
 - 참여자 / 역할:
