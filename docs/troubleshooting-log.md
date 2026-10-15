@@ -14,13 +14,34 @@
 - 주의점:
 
 ## 2. git reset --soft HEAD~1 (로컬 커밋 취소, 변경 유지)
-- 참여자 / 역할:
+- 참여자 / 역할: 김상준 / reset 시나리오 실행 및 기록 작성
 - 발생시킨 상황 / 기대한 복구:
+  - 상황: 커밋 메시지를 잘못 쓰고 커밋함 (아직 push하지 않음)
+  - 기대한 복구: 마지막 커밋 기록만 취소하고, 변경한 코드는 스테이징된 상태로 남겨서 메시지를 고쳐 다시 커밋
 - 재현 절차 및 실제 실행 명령:
+  1. 개인 브랜치에서 작업: `git switch -c feature/16-reset-practice`
+  2. 파일 수정: `echo "reset 실습" >> test.txt`
+  3. 스테이징 및 커밋(잘못된 메시지 생성1): `git add test.txt` → `git commit -m "1"`
+  4. 스테이징 및 커밋(잘못된 메시지 생성2): `git add test.txt` → `git commit -m "2"`
+  5. 커밋 취소: `git reset --soft HEAD~2`
+  6. 올바른 메시지로 재커밋: `git commit -m "docs: reset 을 사용해서 하나의 커밋으로 병합"`
 - 실행 전 `git log` / `git status`:
+  - `git log --oneline`: `<해시> asdf` 커밋이 최상단에 보임
+  - `git status`: `Your branch is ahead of 'origin/...' by 1 commit.` / `nothing to commit, working tree clean`
+  - ![reset_실습전](../screenshot/reset_실습전.png)
 - 실행 후 `git log` / `git status`:
+  - `git log --oneline`: `asdf` 커밋이 사라지고 이전 커밋이 최상단
+  - `git status`: `Changes to be committed:` 아래에 `modified: test.txt`가 초록색(스테이징됨)으로 남아 있음
+  - ![reset_실습후](../screenshot/reset_실습후.png)
 - 결과 / 검증:
+  - 커밋 기록(메시지 포함)만 취소되고 파일 내용은 그대로 유지됨을 확인
+  - 스테이징 상태가 유지되어 `git add` 없이 바로 `git commit` 가능
+  - 재커밋 후 `git log --oneline`에서 새 메시지의 커밋 1개만 남음
 - 주의점:
+  - push하기 **전**의 로컬 커밋에만 사용 (push한 커밋에 쓰면 원격과 기록이 갈라져 강제 push가 필요해짐)
+  - 푸시한 커밋을 되돌릴 때는 `git revert` 사용
+  - `HEAD~N`의 N은 취소할 커밋 개수이며, 숫자를 크게 잡으면 의도보다 많은 커밋이 풀림 (코드는 유지됨)
+  - `--mixed`(스테이징 해제), `--hard`(코드까지 삭제)와 구분해서 사용할 것
 
 ## 3. git revert (원격에 Push한 커밋 변경 취소)
 - 참여자 / 역할:
