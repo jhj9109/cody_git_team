@@ -86,14 +86,109 @@ Date:   Wed Oct 14 22:03:48 2026 +0900
 - 주의점:
 
 ## 3. git revert (원격에 Push한 커밋 변경 취소)
-- 참여자 / 역할:
-- 원격 브랜치와 취소 대상 커밋(해시/링크):
-- 발생시킨 상황 / 기대한 복구:
-- 재현 절차 및 실제 실행 명령:
-- 실행 전 이력 / 파일 내용:
-- 실행 후 이력 / 파일 내용:
-- 결과 / 검증:
-- 주의점:
+
+- **참여자 / 역할:** [이름] — 문서 리팩토링 및 Revert 수행, [이름] — 리뷰 및 검증
+- **원격 브랜치와 취소 대상 커밋(해시/링크):**
+  - 관련 Issue: #XX
+  - 최초 PR: #XX / 리팩토링 커밋: `[SHA]`
+  - Revert PR: #XX / Revert 커밋: `[SHA]`
+
+### 발생시킨 상황 / 기대한 복구
+
+1. 트러블슈팅 문서를 단일 파일에서 주제별 파일로 분리하는 리팩토링을 수행하고 `main`에 병합하였다.
+2. 이후 다른 팀원의 학습 문서가 `main`에 추가되었다.
+3. 기존 단일 문서 구조가 과제 제출 기준에 더 적합하다고 판단하여 리팩토링을 철회하기로 했다.
+
+**목표:** 기존 문서 구조를 복구하되, 이후 병합된 동료의 작업과 Git 이력은 유지한다.
+
+### 재현 절차 및 실제 실행 명령
+
+**1차 작업 — 리팩토링 및 PR 병합**
+
+```bash
+git switch -c feature/17-revert origin/main
+# 문서 구조 변경
+git add docs/
+git commit -m "refactor: reorganize troubleshooting docs"
+git push -u origin feature/17-revert
+```
+
+PR 생성 및 `main` 병합 → 동료의 학습 문서 PR 병합.
+
+**2차 작업 — Revert 및 PR 병합**
+94def06
+```bash
+git fetch origin
+git switch -c revert/17-revert origin/main
+
+git show --stat <TARGET_SHA> # 94def06
+git revert <TARGET_SHA>
+
+git log --oneline --graph -10
+git show --stat HEAD
+git push -u origin revert/17-revert
+```
+
+Revert PR 생성 → 리뷰 및 승인 → `main` 병합.
+
+### 출력
+
+```sh
+commit 94def06ac8162bc576059cf1255e09e938ef0624 (origin/feature/17-revert, feature/17-revert)
+Author: jhj91_09 <jhj91_09@naver.com>
+Date:   Thu Oct 15 15:27:49 2026 +0900
+
+    refactor: 트러블슈팅 구조 개편
+
+ docs/troubleshooting/commit.md                            |  8 ++++++++
+ docs/troubleshooting/reset.md                             |  8 ++++++++
+ docs/troubleshooting/revert.md                            |  9 +++++++++
+ docs/{troubleshooting-log.md => troubleshooting/stash.md} | 34 ----------------------------------
+ 4 files changed, 25 insertions(+), 34 deletions(-)
+```
+
+```sh
+jhj91_093395@c4r1s6 troubleshooting % git log --oneline --graph -10
+* 7b5cfe1 (HEAD -> revert/17-revert) Revert "refactor: 트러블슈팅 구조 개편"
+*   22da3f8 (origin/main, origin/HEAD, main) Merge pull request #19 from jhj9109/feature/16-reset-practice
+|\  
+| *   ad20a65 (origin/feature/16-reset-practice) docs: 병합 충돌 해결
+| |\  
+| | * 4905570 docs: reset 학습정리
+| * | 12ea697 docs: git reset 실습 후 관련 내용정리 추가
+* | |   9b2464a Merge pull request #18 from jhj9109/feature/17-revert
+|\ \ \  
+| |_|/  
+|/| |   
+| * | 94def06 (origin/feature/17-revert, feature/17-revert) refactor: 트러블슈팅 구조 개편
+|/ /  
+* |   e3b0f0a (feature/15-troubleshooting-docs) Merge pull request #14 from jhj9109/feature/12-amend-practice
+|\ \  
+| |/  
+|/|   
+| * b35d672 (origin/feature/12-amend-practice) docs: 어맨드 학습정리
+|/  
+*   ea6c881 Merge pull request #13 from jhj9109/feature/11-README-UPDATE
+|\ 
+
+```
+
+```sh
+jhj91_093395@c4r1s6 troubleshooting % git show --stat HEAD
+commit 7b5cfe1cc95c344bc9b538ed107a8f4e4711d012 (HEAD -> revert/17-revert)
+Author: jhj91_09 <jhj91_09@naver.com>
+Date:   Thu Oct 15 16:52:02 2026 +0900
+
+    Revert "refactor: 트러블슈팅 구조 개편"
+    
+    This reverts commit 94def06ac8162bc576059cf1255e09e938ef0624.
+
+ docs/{troubleshooting/stash.md => troubleshooting-log.md} | 34 ++++++++++++++++++++++++++++++++++
+ docs/troubleshooting/commit.md                            |  8 --------
+ docs/troubleshooting/reset.md                             |  8 --------
+ docs/troubleshooting/revert.md                            |  9 ---------
+ 4 files changed, 34 insertions(+), 25 deletions(-)
+```
 
 ## 4. git stash / git stash pop (작업 임시 보관·복원)
 
