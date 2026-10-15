@@ -5,32 +5,211 @@
 실습은 안전한 개인 브랜치에서 수행합니다. 이미 공유된 커밋에 대한 amend/reset 및 무단 강제 Push를 금지합니다.
 
 ## 1. git commit --amend (최근 커밋 메시지 수정)
-- 참여자 / 역할:
-- 발생시킨 상황 / 기대한 복구:
-- 재현 절차 및 실제 실행 명령:
-- 실행 전 `git log` / `git status`:
-- 실행 후 `git log` / `git status`:
-- 결과 / 검증:
-- 주의점:
+
+### 참여자 / 역할
+- Patrick-sangwook
+- 역할: `git commit --amend` 명령어를 이용한 최근 커밋 메시지 수정 실습 및 결과 기록
+
+### 발생시킨 상황 / 기대한 복구
+- 개인 학습자료를 작성한 후 커밋 메시지를 `어맨드 학습정리`로 등록함.
+- 팀의 커밋 메시지 작성 규칙에 맞춰 `docs:` 접두어를 추가하고자 함.
+- 기존 커밋의 파일 내용을 유지하면서 최근 커밋 메시지만 `docs: 어맨드 학습정리`로 수정하는 것을 목표로 함.
+
+### 재현 절차 및 실제 실행 명령
+1. `feature/12-amend-practice` 브랜치에서 최근 커밋을 확인함.
+2. `git commit --amend`를 이용하여 커밋 메시지를 수정함.
+3. 수정 후 `git log`로 커밋 메시지 및 커밋 ID 변경 여부를 확인함.
+
+실습 명령어:
+
+```bash
+git log
+git commit --amend -m "docs: 어맨드 학습정리"
+git log
+```
+
+※ 가운데 `git commit --amend` 명령어는 제공된 실행 전후 로그를 바탕으로 정리한 재현용 명령어임.
+
+### 실행 전 `git log`
+
+**git log**
+
+```text
+commit ac8e2009dfa5aaa29b81d8c6d62abf0a80c27936 (HEAD -> feature/12-amend-practice)
+Author: Patrick-sangwook <netlee12@naver.com>
+Date:   Wed Oct 14 22:03:48 2026 +0900
+
+    어맨드 학습정리
+```
+
+### 실행 후 `git log`
+
+**git log**
+
+```text
+commit e41fc0a28abc98759a165a7b98ad902aba387113 (HEAD -> feature/12-amend-practice)
+Author: Patrick-sangwook <netlee12@naver.com>
+Date:   Wed Oct 14 22:03:48 2026 +0900
+
+    docs: 어맨드 학습정리
+```
+
+### 결과 / 검증
+
+| 구분 | 수정 전 | 수정 후 |
+|---|---|---|
+| 커밋 ID | `ac8e2009` | `e41fc0a2` |
+| 커밋 메시지 | 어맨드 학습정리 | docs: 어맨드 학습정리 |
+| 브랜치 | feature/12-amend-practice | feature/12-amend-practice |
+
+**검증 결과**
+
+- 최근 커밋 메시지가 정상적으로 변경됨.
+- 커밋 ID가 `ac8e2009`에서 `e41fc0a2`로 변경됨.
+- 작업 브랜치는 동일하게 유지됨.
+- `git commit --amend`가 기존 커밋을 새로운 커밋으로 교체한다는 것을 확인함.
+
+### 주의점
+- `git commit --amend`는 최근 커밋을 새로운 커밋으로 교체하므로 커밋 ID가 변경됨.
+- 이미 원격 저장소에 push한 커밋을 수정하면 다른 팀원의 Git 작업에 영향을 줄 수 있음.
+- 가급적 원격 저장소에 push하기 전 개인 브랜치에서 사용해야 함.
+- 공유 브랜치인 `main`에서는 팀원과 협의 없이 커밋 기록을 변경하거나 강제 push하지 않아야 함.
+- 이번 실습을 통해 커밋 메시지 작성 규칙을 지키는 것의 중요성을 이해함.
 
 ## 2. git reset --soft HEAD~1 (로컬 커밋 취소, 변경 유지)
-- 참여자 / 역할:
+- 참여자 / 역할: 김상준 / reset 시나리오 실행 및 기록 작성
 - 발생시킨 상황 / 기대한 복구:
+  - 상황: 커밋 메시지를 잘못 쓰고 커밋함 (아직 push하지 않음)
+  - 기대한 복구: 마지막 커밋 기록만 취소하고, 변경한 코드는 스테이징된 상태로 남겨서 메시지를 고쳐 다시 커밋
 - 재현 절차 및 실제 실행 명령:
+  1. 개인 브랜치에서 작업: `git switch -c feature/16-reset-practice`
+  2. 파일 수정: `echo "reset 실습" >> test.txt`
+  3. 스테이징 및 커밋(잘못된 메시지 생성1): `git add test.txt` → `git commit -m "1"`
+  4. 스테이징 및 커밋(잘못된 메시지 생성2): `git add test.txt` → `git commit -m "2"`
+  5. 커밋 취소: `git reset --soft HEAD~2`
+  6. 올바른 메시지로 재커밋: `git commit -m "docs: reset 을 사용해서 하나의 커밋으로 병합"`
 - 실행 전 `git log` / `git status`:
+  - `git log --oneline`: `<해시> asdf` 커밋이 최상단에 보임
+  - `git status`: `Your branch is ahead of 'origin/...' by 1 commit.` / `nothing to commit, working tree clean`
+  - ![reset_실습전](../screenshot/reset_실습전.png)
 - 실행 후 `git log` / `git status`:
+  - `git log --oneline`: `asdf` 커밋이 사라지고 이전 커밋이 최상단
+  - `git status`: `Changes to be committed:` 아래에 `modified: test.txt`가 초록색(스테이징됨)으로 남아 있음
+  - ![reset_실습후](../screenshot/reset_실습후.png)
 - 결과 / 검증:
+  - 커밋 기록(메시지 포함)만 취소되고 파일 내용은 그대로 유지됨을 확인
+  - 스테이징 상태가 유지되어 `git add` 없이 바로 `git commit` 가능
+  - 재커밋 후 `git log --oneline`에서 새 메시지의 커밋 1개만 남음
 - 주의점:
+  - push하기 **전**의 로컬 커밋에만 사용 (push한 커밋에 쓰면 원격과 기록이 갈라져 강제 push가 필요해짐)
+  - 푸시한 커밋을 되돌릴 때는 `git revert` 사용
+  - `HEAD~N`의 N은 취소할 커밋 개수이며, 숫자를 크게 잡으면 의도보다 많은 커밋이 풀림 (코드는 유지됨)
+  - `--mixed`(스테이징 해제), `--hard`(코드까지 삭제)와 구분해서 사용할 것
 
 ## 3. git revert (원격에 Push한 커밋 변경 취소)
-- 참여자 / 역할:
-- 원격 브랜치와 취소 대상 커밋(해시/링크):
-- 발생시킨 상황 / 기대한 복구:
-- 재현 절차 및 실제 실행 명령:
-- 실행 전 이력 / 파일 내용:
-- 실행 후 이력 / 파일 내용:
-- 결과 / 검증:
-- 주의점:
+
+- **참여자 / 역할:** [이름] — 문서 리팩토링 및 Revert 수행, [이름] — 리뷰 및 검증
+- **원격 브랜치와 취소 대상 커밋(해시/링크):**
+  - 관련 Issue: #XX
+  - 최초 PR: #XX / 리팩토링 커밋: `[SHA]`
+  - Revert PR: #XX / Revert 커밋: `[SHA]`
+
+### 발생시킨 상황 / 기대한 복구
+
+1. 트러블슈팅 문서를 단일 파일에서 주제별 파일로 분리하는 리팩토링을 수행하고 `main`에 병합하였다.
+2. 이후 다른 팀원의 학습 문서가 `main`에 추가되었다.
+3. 기존 단일 문서 구조가 과제 제출 기준에 더 적합하다고 판단하여 리팩토링을 철회하기로 했다.
+
+**목표:** 기존 문서 구조를 복구하되, 이후 병합된 동료의 작업과 Git 이력은 유지한다.
+
+### 재현 절차 및 실제 실행 명령
+
+**1차 작업 — 리팩토링 및 PR 병합**
+
+```bash
+git switch -c feature/17-revert origin/main
+# 문서 구조 변경
+git add docs/
+git commit -m "refactor: reorganize troubleshooting docs"
+git push -u origin feature/17-revert
+```
+
+PR 생성 및 `main` 병합 → 동료의 학습 문서 PR 병합.
+
+**2차 작업 — Revert 및 PR 병합**
+94def06
+```bash
+git fetch origin
+git switch -c revert/17-revert origin/main
+
+git show --stat <TARGET_SHA> # 94def06
+git revert <TARGET_SHA>
+
+git log --oneline --graph -10
+git show --stat HEAD
+git push -u origin revert/17-revert
+```
+
+Revert PR 생성 → 리뷰 및 승인 → `main` 병합.
+
+### 출력
+
+```sh
+commit 94def06ac8162bc576059cf1255e09e938ef0624 (origin/feature/17-revert, feature/17-revert)
+Author: jhj91_09 <jhj91_09@naver.com>
+Date:   Thu Oct 15 15:27:49 2026 +0900
+
+    refactor: 트러블슈팅 구조 개편
+
+ docs/troubleshooting/commit.md                            |  8 ++++++++
+ docs/troubleshooting/reset.md                             |  8 ++++++++
+ docs/troubleshooting/revert.md                            |  9 +++++++++
+ docs/{troubleshooting-log.md => troubleshooting/stash.md} | 34 ----------------------------------
+ 4 files changed, 25 insertions(+), 34 deletions(-)
+```
+
+```sh
+jhj91_093395@c4r1s6 troubleshooting % git log --oneline --graph -10
+* 7b5cfe1 (HEAD -> revert/17-revert) Revert "refactor: 트러블슈팅 구조 개편"
+*   22da3f8 (origin/main, origin/HEAD, main) Merge pull request #19 from jhj9109/feature/16-reset-practice
+|\  
+| *   ad20a65 (origin/feature/16-reset-practice) docs: 병합 충돌 해결
+| |\  
+| | * 4905570 docs: reset 학습정리
+| * | 12ea697 docs: git reset 실습 후 관련 내용정리 추가
+* | |   9b2464a Merge pull request #18 from jhj9109/feature/17-revert
+|\ \ \  
+| |_|/  
+|/| |   
+| * | 94def06 (origin/feature/17-revert, feature/17-revert) refactor: 트러블슈팅 구조 개편
+|/ /  
+* |   e3b0f0a (feature/15-troubleshooting-docs) Merge pull request #14 from jhj9109/feature/12-amend-practice
+|\ \  
+| |/  
+|/|   
+| * b35d672 (origin/feature/12-amend-practice) docs: 어맨드 학습정리
+|/  
+*   ea6c881 Merge pull request #13 from jhj9109/feature/11-README-UPDATE
+|\ 
+
+```
+
+```sh
+jhj91_093395@c4r1s6 troubleshooting % git show --stat HEAD
+commit 7b5cfe1cc95c344bc9b538ed107a8f4e4711d012 (HEAD -> revert/17-revert)
+Author: jhj91_09 <jhj91_09@naver.com>
+Date:   Thu Oct 15 16:52:02 2026 +0900
+
+    Revert "refactor: 트러블슈팅 구조 개편"
+    
+    This reverts commit 94def06ac8162bc576059cf1255e09e938ef0624.
+
+ docs/{troubleshooting/stash.md => troubleshooting-log.md} | 34 ++++++++++++++++++++++++++++++++++
+ docs/troubleshooting/commit.md                            |  8 --------
+ docs/troubleshooting/reset.md                             |  8 --------
+ docs/troubleshooting/revert.md                            |  9 ---------
+ 4 files changed, 34 insertions(+), 25 deletions(-)
+```
 
 ## 4. git stash / git stash pop (작업 임시 보관·복원)
 
