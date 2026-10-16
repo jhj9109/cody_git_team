@@ -5,8 +5,6 @@
 
 ## 팀원별 Issue / PR / 리뷰 및 기여
 
-PR #23은 병합 없이 닫혔으므로 병합 실적에서 제외합니다.
-
 - wp230
   - [docs: Git 기본 구조와 동작 원리 학습 문서(kwon.md) 추가](https://github.com/jhj9109/cody_git_team/pull/3)
   - [docs: stash workflow 학습 노트 추가](https://github.com/jhj9109/cody_git_team/pull/7)
@@ -19,6 +17,7 @@ PR #23은 병합 없이 닫혔으므로 병합 실적에서 제외합니다.
   - [Revert "refactor: 트러블슈팅 구조 개편"](https://github.com/jhj9109/cody_git_team/pull/21)
   - [Feature/15 troubleshooting docs jang](https://github.com/jhj9109/cody_git_team/pull/22)
   - [Feature/15 troubleshooting docs](https://github.com/jhj9109/cody_git_team/pull/25)
+  - [Feature/26 docs](https://github.com/jhj9109/cody_git_team/pull/29)
 
 - Patrick-sangwook
   - [docs: 개인학습자료 업로드](https://github.com/jhj9109/cody_git_team/pull/8)
@@ -26,7 +25,8 @@ PR #23은 병합 없이 닫혔으므로 병합 실적에서 제외합니다.
 
 - roiker7
   - [Feature/16 reset practice](https://github.com/jhj9109/cody_git_team/pull/19)
-  - [docs: reset 트러블슈팅 내용정리](https://github.com/jhj9109/cody_git_team/pull/23)
+  - [docs: 사례 1번 내용 작성](https://github.com/jhj9109/cody_git_team/pull/28)
+  - [Feature/20 troubleshooting docs](https://github.com/jhj9109/cody_git_team/pull/24)
 
 ## 문서 및 결과물
 
@@ -37,15 +37,17 @@ PR #23은 병합 없이 닫혔으므로 병합 실적에서 제외합니다.
 
 ## 증빙 자료
 
+- [amend 실행 전후 로그](증거.md)
 - [reset 실습 전](screenshot/reset_실습전.png) / [실습 후](screenshot/reset_실습후.png)
+- [git log --oneline --graph --all](screenshot/log_graph.png)
 
 ## 최종 확인
 
-- [ ] 전원 PR 2개 이상 생성·병합
-- [ ] 전원 타인 PR 실질 리뷰 2개 이상
-- [ ] 전원 본인 PR의 피드백 반영 1회 이상
-- [ ] 전원 결과물 기여 커밋 1개 이상
-- [ ] 전원 트러블슈팅 기록 최소 1건 참여
-- [ ] 충돌 2건(비자명 충돌 최소 1건 포함)
-- [ ] 트러블슈팅 4종 전체 완료
-- [ ] `git log --oneline --graph --all` 증빙 확보
+- [x] 전원 PR 2개 이상 생성·병합
+- [x] 전원 타인 PR 실질 리뷰 2개 이상
+- [x] 전원 본인 PR의 피드백 반영 1회 이상
+- [x] 전원 결과물 기여 커밋 1개 이상
+- [x] 전원 트러블슈팅 기록 최소 1건 참여
+- [x] 충돌 2건(비자명 충돌 최소 1건 포함)
+- [x] 트러블슈팅 4종 전체 완료
+- [x] `git log --oneline --graph --all` 증빙 확보

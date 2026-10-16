@@ -1,23 +1,18 @@
 # 팀 Git 협업 실습
 
-3~5명이 GitHub Flow, PR 리뷰, 충돌 해결, Git 복구 명령을 연습하는 팀 프로젝트입니다.
-깃허브에 관한 학습 정리 노트(md)를 기반으로 Github 협업실습을 진행합니다.
+4명이 GitHub Flow, PR 리뷰, 충돌 해결, Git 복구 명령을 연습하는 팀 프로젝트입니다.
+Git에 관한 학습 정리 노트(Markdown)를 작성하며 GitHub 협업을 실습합니다.
+개인 저장소에 Collaborator를 초대하는 방식으로 진행합니다.
 
 ## 결과물
+**깃허브에 관한 학습 정리 노트(md) (`src/`)**
 
-- 깃허브에 관한 학습 정리 노트(md) (`src/`)
-- [Git 기본 구조와 동작 원리](src/kwon.md)
-- [Git 객체와 파일 버전 저장 방식](src/jang.md)
-- [GitHub 팀 협업 저장소 생성 방식 비교](src/sang.md)
-- [Git 협업 중 작업 보관과 브랜치 전환](src/kwon-additional-git-learning-note.md)
-
-## 팀원
-
-| GitHub ID        | 담당 파일                                                                                         |
-| ---------------- | ------------------------------------------------------------------------------------------------- |
-| wp230            | [Git 기본 구조](src/kwon.md), [작업 보관과 브랜치 전환](src/kwon-additional-git-learning-note.md) |
-| jhj9109          | [Git 객체와 파일 버전 저장](src/jang.md)                                                          |
-| Patrick-sangwook | [팀 협업 저장소 생성 방식 비교](src/sang.md)                                                      |
+| GitHub ID | 담당 학습 노트 |
+|---|---|
+| wp230 | [Git 기본 구조](src/kwon.md), [작업 보관과 브랜치 전환](src/kwon-additional-git-learning-note.md) |
+| jhj9109 | [Git 객체와 파일 버전 저장](src/jang.md) |
+| Patrick-sangwook | [팀 협업 저장소 생성 방식 비교](src/sang.md), [commit --amend](src/sang-commit-amend-learning-note.md) |
+| roiker7 | [git reset](src/reset_summary.md) |
 
 ## 제출물 및 협업 문서
 
