@@ -18,7 +18,8 @@
   - [Feature/15 troubleshooting docs jang](https://github.com/jhj9109/cody_git_team/pull/22)
   - [Feature/15 troubleshooting docs](https://github.com/jhj9109/cody_git_team/pull/25)
   - [Feature/26 docs](https://github.com/jhj9109/cody_git_team/pull/29)
-  - [hotfix: 증거.md 복구](https://github.com/jhj9109/cody_git_team/pull/30)
+  - [hotfix: 증거.md 복구](https://github.com/jhj9109/cody_git_team/pull/31)
+  - [hotfix: 최종 제출용 마지막 수정](https://github.com/jhj9109/cody_git_team/pull/33)
 
 - Patrick-sangwook
   - [docs: 개인학습자료 업로드](https://github.com/jhj9109/cody_git_team/pull/8)
